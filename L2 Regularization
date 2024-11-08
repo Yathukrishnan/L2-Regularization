@@ -1,0 +1,24 @@
+l2model = Sequential([
+    Flatten(input_shape=(32, 32, 3)),
+    Dense(256, activation='relu',kernel_regularizer=regularizers.l2(0.01)),  # Hidden Layer 1
+    Dense(128, activation='relu',kernel_regularizer=regularizers.l2(0.01)),  # Hidden Layer 2
+    Dense(64, activation='relu',kernel_regularizer=regularizers.l2(0.01)),   # Hidden Layer 3
+    Dense(10, activation='softmax') # Output Layer
+])
+
+# Compile the model
+l2model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
+st=time.time()
+
+# Train the model
+history = l2model.fit(x_train, y_train, epochs=5, batch_size=64, validation_data=(x_test, y_test))
+et=time.time()
+
+# Evaluate the model
+l2test_loss, l2test_acc = l2model.evaluate(x_test, y_test)
+
+duration=et-st
+
+print(f"Duration:{duration:.4f}")
+print(f"Test accuracy: {l2test_acc:.4f}")
+print(f"Test loss: {l2test_loss:.4f}")
